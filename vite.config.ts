@@ -1,0 +1,25 @@
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
+export default defineConfig({
+  plugins: [react()],
+  define: {
+    // تمرير متغيرات البيئة من النظام إلى الكود البرمجي أثناء البناء
+    'process.env.API_KEY': JSON.stringify(process.env.API_KEY)
+  },
+  server: {
+    port: 3000
+  },
+  build: {
+    outDir: 'dist',
+    minify: 'terser',
+    sourcemap: false,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', '@google/genai'],
+        },
+      },
+    },
+  }
+});
